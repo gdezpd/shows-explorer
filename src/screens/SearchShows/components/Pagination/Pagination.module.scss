@@ -1,0 +1,37 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.edge,
+.page,
+.pageActive {
+  min-width: 44px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(243, 239, 230, 0.16);
+  color: #f3efe6;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pageActive {
+  border-color: #e8a048;
+  color: #1a1208;
+  background: #e8a048;
+}
+
+.edge:disabled,
+.page:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.edge:focus-visible,
+.page:focus-visible,
+.pageActive:focus-visible {
+  outline: 2px solid #f3efe6;
+  outline-offset: 2px;
+}

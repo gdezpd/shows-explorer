@@ -1,0 +1,33 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.caption {
+  color: #b7b0a4;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  padding: 18px 22px;
+  border: 1px solid rgba(243, 239, 230, 0.16);
+  border-radius: 18px;
+  color: #f3efe6;
+  background: rgba(20, 18, 24, 0.86);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  outline: none;
+}
+
+.input::placeholder {
+  color: #7d776e;
+}
+
+.input:focus {
+  border-color: #e8a048;
+  box-shadow: 0 0 0 4px rgba(232, 160, 72, 0.16);
+}
