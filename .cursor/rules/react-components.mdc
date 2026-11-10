@@ -7,7 +7,7 @@ alwaysApply: false
 
 # Компоненты
 
-Экран рисует каркас и фазы. Данные и команды он берёт из одного presenter. Виджет в `components/` получает готовые props и не знает про store.
+Экран рисует каркас и фазы. Данные и команды он берёт из одного presenter. Виджет получает готовые props и не знает про store.
 
 - Экран не вызывает `useAppDispatch` и `useAppSelector`. Это делает `use<Screen>Presenter`.
 - У виджета обязательные props. Флаг «показать» вместе с необязательными данными не добавляй: родитель сам решает, монтировать ли ребёнка.
@@ -20,14 +20,16 @@ alwaysApply: false
 ```tsx
 const presenter = useSearchShowsPresenter()
 
-{presenter.showGenres ? (
+{presenter.showGenres && (
   <GenreChips
     genres={presenter.genres}
     selected={presenter.selectedGenres}
     onToggle={presenter.onToggleGenre}
     onClear={presenter.onClearGenres}
   />
-) : null}
+)}
 ```
+
+Условный JSX пишем через `&&`. Конструкцию `? ( ... ) : null` не используем. Тернарник допустим, только когда у ветки `else` есть реальная альтернатива, например картинка или заглушка.
 
 Presenter возвращает модель представления: значения, фазу и обработчики. Фазу (`idle`, `loading`, `error`, `empty`, `empty-filter`, `results`) вычисляй в нём, а не размазывай условия по JSX.

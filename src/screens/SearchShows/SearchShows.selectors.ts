@@ -18,7 +18,7 @@ export const selectFilteredShows = memo((state: RootState): Show[] => {
 
   if (selectedGenres.length === 0) return results
 
-  return results.filter((show) => selectedGenres.every((genre) => show.genres.includes(genre)))
+  return results.filter((show) => selectedGenres.some((genre) => show.genres.includes(genre)))
 })
 
 export function selectPageCount(state: RootState): number {

@@ -7,7 +7,14 @@ import {
   searchCleared,
   searchShowsRequested,
 } from '../SearchShows.actions'
-import { PAGE_SIZE, selectCurrentPage, selectFilteredShows, selectGenres, selectPageCount, selectPageItems } from '../SearchShows.selectors'
+import {
+  PAGE_SIZE,
+  selectCurrentPage,
+  selectFilteredShows,
+  selectGenres,
+  selectPageCount,
+  selectPageItems,
+} from '../SearchShows.selectors'
 
 const DEBOUNCE_MS = 400
 

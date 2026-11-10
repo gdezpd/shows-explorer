@@ -1,4 +1,4 @@
-import type { Show } from '../../../../entities/show'
+import type { Show } from '../../../entities/show'
 import styles from './ShowCard.module.scss'
 
 type ShowCardProps = {
@@ -26,11 +26,9 @@ export function ShowCard({ show }: ShowCardProps) {
         <p className={styles.meta}>
           <span>{year}</span>
           <span>★ {rating}</span>
-          {show.status ? <span>{show.status}</span> : null}
+          {show.status && <span>{show.status}</span>}
         </p>
-        {show.genres.length > 0 ? (
-          <p className={styles.genres}>{show.genres.join(' · ')}</p>
-        ) : null}
+        {show.genres.length > 0 && <p className={styles.genres}>{show.genres.join(' · ')}</p>}
         <p className={styles.summary}>{summary}</p>
         <a className={styles.link} href={show.url} target="_blank" rel="noopener noreferrer">
           Открыть на TVmaze

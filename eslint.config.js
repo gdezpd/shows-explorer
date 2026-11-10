@@ -14,10 +14,7 @@ export default [
         babelOptions: {
           babelrc: false,
           configFile: false,
-          presets: [
-            ['@babel/preset-react', { runtime: 'automatic' }],
-            '@babel/preset-typescript',
-          ],
+          presets: [['@babel/preset-react', { runtime: 'automatic' }], '@babel/preset-typescript'],
         },
       },
     },

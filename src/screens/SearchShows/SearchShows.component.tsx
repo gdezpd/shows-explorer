@@ -1,7 +1,7 @@
-import { GenreChips } from './components/GenreChips'
-import { Pagination } from './components/Pagination'
-import { SearchField } from './components/SearchField'
-import { ShowCard } from './components/ShowCard'
+import { GenreChips } from './GenreChips'
+import { Pagination } from './Pagination'
+import { SearchField } from './SearchField'
+import { ShowCard } from './ShowCard'
 import { useSearchShowsPresenter } from './hooks/useSearchShowsPresenter'
 import styles from './SearchShows.module.scss'
 
@@ -19,48 +19,48 @@ export function SearchShows() {
         <SearchField value={presenter.input} onChange={presenter.onInput} />
       </header>
 
-      {presenter.queryLabel ? <p className={styles.query}>{presenter.queryLabel}</p> : null}
+      {presenter.queryLabel && <p className={styles.query}>{presenter.queryLabel}</p>}
 
-      {presenter.phase === 'loading' ? (
+      {presenter.phase === 'loading' && (
         <p className={styles.status} role="status">
           Ищем шоу…
         </p>
-      ) : null}
-      {presenter.phase === 'error' && presenter.error ? (
+      )}
+      {presenter.phase === 'error' && presenter.error && (
         <p className={styles.error} role="alert">
           {presenter.error}
         </p>
-      ) : null}
-      {presenter.phase === 'empty' ? (
+      )}
+      {presenter.phase === 'empty' && (
         <p className={styles.status} role="status">
           По этому запросу ничего не найдено
         </p>
-      ) : null}
+      )}
 
-      {presenter.showGenres ? (
+      {presenter.showGenres && (
         <GenreChips
           genres={presenter.genres}
           selected={presenter.selectedGenres}
           onToggle={presenter.onToggleGenre}
           onClear={presenter.onClearGenres}
         />
-      ) : null}
+      )}
 
-      {presenter.phase === 'empty-filter' ? (
+      {presenter.phase === 'empty-filter' && (
         <p className={styles.status} role="status">
           Ничего не найдено по выбранным жанрам
         </p>
-      ) : null}
+      )}
 
-      {presenter.phase === 'loading' ? (
+      {presenter.phase === 'loading' && (
         <div className={styles.grid} aria-hidden="true">
           <div className={styles.skeleton} />
           <div className={styles.skeleton} />
           <div className={styles.skeleton} />
         </div>
-      ) : null}
+      )}
 
-      {presenter.phase === 'results' ? (
+      {presenter.phase === 'results' && (
         <ul className={styles.grid}>
           {presenter.shows.map((show) => (
             <li key={show.id} className={styles.item}>
@@ -68,15 +68,15 @@ export function SearchShows() {
             </li>
           ))}
         </ul>
-      ) : null}
+      )}
 
-      {presenter.showPagination ? (
+      {presenter.showPagination && (
         <Pagination
           page={presenter.page}
           pageCount={presenter.pageCount}
           onPageChange={presenter.onPageChange}
         />
-      ) : null}
+      )}
     </main>
   )
 }

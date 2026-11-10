@@ -1,12 +1,15 @@
-import { applyMiddleware, compose, legacy_createStore as createStore, type UnknownAction } from 'redux'
+import {
+  applyMiddleware,
+  compose,
+  legacy_createStore as createStore,
+  type UnknownAction,
+} from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import {
   searchShowsReducer,
   type SearchShowsState,
 } from '../screens/SearchShows/SearchShows.reducer'
-import {
-  searchShowsEpic,
-} from '../screens/SearchShows/SearchShows.epic'
+import { searchShowsEpic } from '../screens/SearchShows/SearchShows.epic'
 import type { SearchShowsAction } from '../screens/SearchShows/SearchShows.actions'
 
 export type RootState = {

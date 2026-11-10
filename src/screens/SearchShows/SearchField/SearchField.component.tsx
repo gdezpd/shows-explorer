@@ -12,7 +12,7 @@ export function SearchField({ value, onChange }: SearchFieldProps) {
       <input
         className={styles.input}
         value={value}
-        placeholder="Например, Murder"
+        placeholder="Введите название"
         autoComplete="off"
         spellCheck={false}
         enterKeyHint="search"
