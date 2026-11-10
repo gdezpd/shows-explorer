@@ -1,0 +1,33 @@
+---
+description: Композиция экрана, presenter и контракт props в shows-explorer
+globs:
+  - "src/**/*.tsx"
+alwaysApply: false
+---
+
+# Компоненты
+
+Экран рисует каркас и фазы. Данные и команды он берёт из одного presenter. Виджет в `components/` получает готовые props и не знает про store.
+
+- Экран не вызывает `useAppDispatch` и `useAppSelector`. Это делает `use<Screen>Presenter`.
+- У виджета обязательные props. Флаг «показать» вместе с необязательными данными не добавляй: родитель сам решает, монтировать ли ребёнка.
+- Условный рендер сам по себе не повод выносить компонент. Дели, когда у куска другой контракт данных или его переиспользуют.
+- Компонент не длиннее 120 строк. Если разрастается, выделяй виджет или вынеси логику в presenter.
+- Общую раскладку оставляй на экране. Повторяющийся ряд выноси явным layout-компонентом, а не режимом одного компонента.
+- Внутри экрана имя виджета короткое: `ShowCard`, не `SearchShowsShowCard`. Префикс нужен только публичному символу, который виден вне папки.
+- Сохраняй доступность: `role="status"`, `role="alert"`, подпись поля, `type="button"`, `aria-pressed`, `aria-current`.
+
+```tsx
+const presenter = useSearchShowsPresenter()
+
+{presenter.showGenres ? (
+  <GenreChips
+    genres={presenter.genres}
+    selected={presenter.selectedGenres}
+    onToggle={presenter.onToggleGenre}
+    onClear={presenter.onClearGenres}
+  />
+) : null}
+```
+
+Presenter возвращает модель представления: значения, фазу и обработчики. Фазу (`idle`, `loading`, `error`, `empty`, `empty-filter`, `results`) вычисляй в нём, а не размазывай условия по JSX.

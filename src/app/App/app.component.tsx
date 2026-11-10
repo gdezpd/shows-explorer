@@ -1,5 +1,5 @@
 import { SearchShows } from '../../screens/SearchShows'
-import styles from './App.module.scss'
+import styles from './app.module.scss'
 
 export function App() {
   return (

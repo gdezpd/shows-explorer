@@ -1,0 +1,33 @@
+---
+description: Имена файлов, импорты и TypeScript в shows-explorer
+globs:
+  - "src/**/*.ts"
+  - "src/**/*.tsx"
+alwaysApply: false
+---
+
+# Стиль кода
+
+Пиши как существующие файлы: без точек с запятой, одинарные кавычки, отступ в два пробела, висячие запятые в многострочных объектах и union. Форматтер не настроен, стиль не «улучшай» по пути.
+
+Файл не длиннее 120 строк. Это проверяет правило `max-lines` в `eslint.config.js`: считаются пустые строки и комментарии. Запусти `npm run lint`.
+
+- Именованные экспорты. Компоненты и хуки — `function`, не стрелка и не `export default`.
+- `import type` для типов. `strict`, `noUnusedLocals` и `noUnusedParameters` уже включены: неиспользуемый код не оставляй.
+- Компонент и его папка — `PascalCase`. Функции, хуки и action creators — `camelCase`.
+- Суффиксы файлов: `Name.component.tsx`, `Name.module.scss`, `Screen.actions.ts`, `Screen.reducer.ts`, `Screen.epic.ts`, `Screen.selectors.ts`. Корневая оболочка остаётся `app.component.tsx` и `app.module.scss` (папка `App/` при этом `PascalCase`). Файлы в `src/entities` и `src/api` — `camelCase` по содержимому: `show.ts`, `searchShows.ts`.
+- Props — неэкспортируемый `NameProps` рядом с компонентом.
+
+Порядок импортов: внешние пакеты, затем `app`, `api`, `entities`, затем соседние модули. Стили — последним импортом.
+
+```ts
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { searchShowsRequested } from '../SearchShows.actions'
+import styles from './SearchShows.module.scss'
+```
+
+Строка типа действия: `'<screen>/<event>'`, константа с суффиксом `Type`.
+
+```ts
+export const searchShowsRequestedType = 'searchShows/requested' as const
+```

@@ -1,0 +1,32 @@
+---
+description: Actions, reducer, epic, selectors и граница API в shows-explorer
+globs:
+  - "src/screens/**/*.ts"
+  - "src/api/**/*.ts"
+  - "src/entities/**/*.ts"
+  - "src/app/store.ts"
+  - "src/app/hooks.ts"
+alwaysApply: false
+---
+
+# Состояние и данные
+
+Экран владеет своим срезом store. Компоненты не собирают запрос и не разбирают ответ провайдера.
+
+- Action creator возвращает plain object. Union экрана — объединение `ReturnType` этих creator. Общий тип приложения расширяй в `AppAction`.
+- Reducer чистый, неизвестные action игнорирует. Повторная очистка уже пустого состояния возвращает тот же state.
+- Текст ошибки для человека живёт в reducer и выбирается по `RequestErrorKind`. В UI не мапь `network` / `http` заново.
+- Запрос принадлежит epic: `switchMap` отменяет предыдущий поиск, `AbortController` прерывает `fetch` при отписке, `AbortError` не диспатчится как ошибка. `RequestError` превращай в `kind`.
+- Жанры, фильтрация и страница — selectors. Не копируй эту логику в presenter или JSX. Производный список мемоизируй по ссылке на `RootState`, как `selectFilteredShows`.
+- Тип ответа провайдера остаётся в `src/api/<provider>/`. Наружу выходит сущность из `src/entities`. Новый `fetch` идёт через `getJson`.
+
+```ts
+export function searchShows(query: string, signal: AbortSignal): Promise<Show[]> {
+  return getJson<unknown>(url, signal).then((payload) => {
+    if (!Array.isArray(payload)) throw new RequestError('unknown')
+    return payload.map((item) => toShow(item as TvmazeSearchItem))
+  })
+}
+```
+
+Смену загрузки, отмены, фильтра или страницы не прячь в компоненте: добавляй action, ветку reducer и, если нужен запрос, epic.

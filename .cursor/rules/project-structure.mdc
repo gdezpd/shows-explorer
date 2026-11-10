@@ -1,0 +1,33 @@
+---
+description: Каталоги shows-explorer и границы View и Presenter
+alwaysApply: true
+---
+
+# Структура
+
+Один сценарий — одна папка экрана. Транспорт, домен и оболочка приложения не смешиваются. Из VIPER здесь пока заданы только View и Presenter. Остальные слои не называй и не придумывай для них правила.
+
+| VIPER | Здесь |
+| --- | --- |
+| View | `Screen.component.tsx`, `components/`, `*.module.scss`. Рисует модель и вызывает обработчики. Про store не знает и запрос не собирает |
+| Presenter | `hooks/use<Screen>Presenter.ts`. Единственное место, где экран говорит с store. Собирает модель представления и фазу, держит локальное UI-состояние (поле ввода, debounce) |
+
+- `src/app` — `store.ts`, `hooks.ts`, оболочка `App`. `App` не ходит в store и не содержит сценарий.
+- `src/screens/<Screen>` — `Screen.component.tsx`, `hooks/use<Screen>Presenter.ts`, `Screen.actions.ts`, `Screen.reducer.ts`, `Screen.epic.ts`, `Screen.selectors.ts`, приватные `components/`.
+- `src/api/fetcher.ts` — единственный `fetch`. `src/api/<provider>/` мапит ответ в сущность.
+- `src/entities` — типы вроде `Show`. Без JSX и без HTTP.
+- `src/styles/global.scss` — reset, шрифт и фон. Стили компонента туда не добавляй.
+
+Публичная поверхность папки — `index.ts`, и из него экспортируется только компонент.
+
+```ts
+export { SearchShows } from './SearchShows.component'
+```
+
+Снаружи экрана нельзя импортировать его actions, reducer, epic, selectors, hooks и `components/`. Reducer и epic нового экрана регистрируются в `src/app/store.ts`. Алиасов путей нет: импорты относительные.
+
+Компонент с одним родителем лежит в папке этого родителя, например `ShowCard/Poster`. В `components/` его не клади.
+
+`components/` уровня хранит только переиспользуемые виджеты. Их используют компоненты ниже по дереву этой папки, снаружи и выше — нет. У каждой дочерней папки может быть свой `components/` на тех же условиях. Выше уровня, где виджет реально переиспользуют, его не поднимай. Корневой `src/components/` и отдельный пакет заводи, только когда виджет нужен нескольким экранам.
+
+Экран — отдельный сценарий, а не приватный виджет оболочки. Он остаётся в `src/screens/<Screen>`, даже если его монтирует только `App`.
