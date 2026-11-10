@@ -1,9 +1,4 @@
-import {
-  applyMiddleware,
-  compose,
-  legacy_createStore as createStore,
-  type UnknownAction,
-} from 'redux'
+import { configureStore, type UnknownAction } from '@reduxjs/toolkit'
 import { createEpicMiddleware } from 'redux-observable'
 import {
   searchShowsReducer,
@@ -26,11 +21,9 @@ function rootReducer(state: RootState | undefined, action: AppAction | UnknownAc
 
 const epicMiddleware = createEpicMiddleware<AppAction, AppAction, RootState>()
 
-const composeEnhancers =
-  import.meta.env.DEV && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose
-
-export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware)))
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware),
+})
 
 epicMiddleware.run(searchShowsEpic)
