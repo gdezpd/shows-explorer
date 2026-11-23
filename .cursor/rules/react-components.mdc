@@ -9,7 +9,7 @@ alwaysApply: false
 
 Экран рисует каркас и фазы. Данные и команды он берёт из одного presenter. Виджет получает готовые props и не знает про store.
 
-- Экран не вызывает `useAppDispatch` и `useAppSelector`. Это делает `use<Screen>Presenter`.
+- Экран не вызывает `useAppDispatch` и `useAppSelector`. Это делает `use<Screen>`.
 - У виджета обязательные props. Флаг «показать» вместе с необязательными данными не добавляй: родитель сам решает, монтировать ли ребёнка.
 - Условный рендер сам по себе не повод выносить компонент. Дели, когда у куска другой контракт данных или его переиспользуют.
 - Компонент не длиннее 120 строк. Если разрастается, выделяй виджет или вынеси логику в presenter.
@@ -18,7 +18,7 @@ alwaysApply: false
 - Сохраняй доступность: `role="status"`, `role="alert"`, подпись поля, `type="button"`, `aria-pressed`, `aria-current`.
 
 ```tsx
-const presenter = useSearchShowsPresenter()
+const presenter = useSearchShows()
 
 {presenter.showGenres && (
   <GenreChips

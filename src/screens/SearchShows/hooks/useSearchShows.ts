@@ -20,7 +20,7 @@ const DEBOUNCE_MS = 400
 
 export type SearchPhase = 'idle' | 'loading' | 'error' | 'empty' | 'empty-filter' | 'results'
 
-export function useSearchShowsPresenter() {
+export function useSearchShows() {
   const dispatch = useAppDispatch()
   const query = useAppSelector((state) => state.searchShows.query)
   const status = useAppSelector((state) => state.searchShows.status)
@@ -35,19 +35,21 @@ export function useSearchShowsPresenter() {
   const [input, setInput] = useState('')
 
   useEffect(() => {
+    const nextQuery = input.trim()
+
+    if (!nextQuery) {
+      dispatch(searchCleared())
+      return
+    }
+
+    if (nextQuery === query) return
+
     const timeoutId = window.setTimeout(() => {
-      const nextQuery = input.trim()
-
-      if (!nextQuery) {
-        dispatch(searchCleared())
-        return
-      }
-
       dispatch(searchShowsRequested(nextQuery))
     }, DEBOUNCE_MS)
 
     return () => window.clearTimeout(timeoutId)
-  }, [dispatch, input])
+  }, [dispatch, input, query])
 
   const phase = getPhase(status, query, resultCount, filteredCount)
 

@@ -2,11 +2,11 @@ import { GenreChips } from './GenreChips'
 import { Pagination } from './Pagination'
 import { SearchField } from './SearchField'
 import { ShowCard } from './ShowCard'
-import { useSearchShowsPresenter } from './hooks/useSearchShowsPresenter'
+import { useSearchShows } from './hooks/useSearchShows'
 import styles from './SearchShows.module.scss'
 
 export function SearchShows() {
-  const presenter = useSearchShowsPresenter()
+  const presenter = useSearchShows()
 
   return (
     <main className={styles.screen}>
